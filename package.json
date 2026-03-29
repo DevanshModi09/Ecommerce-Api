@@ -21,8 +21,10 @@
     "http-status-codes": "^2.1.4",
     "joi": "^17.4.0",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^6.0.8",
-    "morgan": "^1.10.0",
+    "mongoose": "^9.3.3",
+    "morgan": "^1.10.1",
+    "npm": "^11.12.1",
+    "start": "^5.1.0",
     "validator": "^13.6.0",
     "xss-clean": "^0.1.1"
   },
