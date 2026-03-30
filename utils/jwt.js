@@ -12,6 +12,7 @@ const isTokenValid = ({ token }) => {
 };
 
 const attachCookiesToResponse = ({ res, tokenUser }) => {
+  console.log(tokenUser);
   const token = createJWT({ payload: tokenUser });
   const oneDay = 1000 * 60 * 60 * 24;
   res.cookie('token', token, {
@@ -20,7 +21,7 @@ const attachCookiesToResponse = ({ res, tokenUser }) => {
     secure: process.env.NODE_ENV === 'production',
     signed: true,
   });
-}; 
+};
 
 module.exports = {
   createJWT,

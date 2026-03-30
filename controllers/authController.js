@@ -2,7 +2,10 @@ const User = require('../models/user.js');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 
-const { attachCookiesToResponse } = require('../utils/index.js');
+const {
+  attachCookiesToResponse,
+  createTokenUser,
+} = require('../utils/index.js');
 
 const register = async (req, res) => {
   const { email, password, name } = req.body;
@@ -16,7 +19,7 @@ const register = async (req, res) => {
     throw new CustomError.BadRequestError('Email already exists');
   }
   const user = await User.create({ email, password, name });
-  const tokenUser = { name: user.name, userId: user._id, role: user.role };
+  const tokenUser = createTokenUser(user);
 
   //Attaching the cookie here (not sending the response)
   attachCookiesToResponse({ res, tokenUser });
@@ -39,12 +42,14 @@ const login = async (req, res) => {
   if (!isPasswordCorrect) {
     throw new CustomError.UnauthenticatedError('Invalid Credentials ');
   }
-  const tokenUser = { name: user.name, userId: user._id, role: user.role };
+  const tokenUser = createTokenUser(user);
 
   //Attaching the cookie here (not sending the response)
   attachCookiesToResponse({ res, tokenUser });
   //Sending the response here
-  res.status(StatusCodes.CREATED).json({ user: tokenUser });
+  res
+    .status(StatusCodes.OK)
+    .json({ user: tokenUser, message: 'User Logged In' });
 };
 
 const logout = async (req, res) => {
