@@ -4,6 +4,7 @@ const CustomError = require('../errors');
 const {
   createTokenUser,
   attachCookiesToResponse,
+  checkPermissions,
 } = require('../utils/index.js');
 
 const getAllUsers = async (req, res) => {
@@ -18,6 +19,7 @@ const getSingleUser = async (req, res) => {
       `No such user with id : ${req.params.id}`,
     );
   }
+  checkPermissions(req.user, user._id);
   res.status(StatusCodes.OK).json({ user });
 };
 
